@@ -39,12 +39,6 @@ void main() {
   });
 
   group("Given an order is en route", () {
-    group("When the order is marked pending", () {
-      test("Then an OrderStateException is thrown", () {
-        throw UnimplementedError();
-      });
-    });
-
     group("When the order arrives", () {
       test("Then the order's state is 'arrived'", () {
         throw UnimplementedError();
