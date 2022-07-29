@@ -30,7 +30,31 @@ class Order {
   }
 }
 
-class PendingOrder implements OrderState {
+class _DefaultStateBehaviour implements OrderState {
+  const _DefaultStateBehaviour();
+
+  @override
+  void _arrive() {
+    throw OrderStateException();
+  }
+
+  @override
+  void _complete() {
+    throw OrderStateException();
+  }
+
+  @override
+  void _start() {
+    throw OrderStateException();
+  }
+
+  @override
+  void _updateEtaTo(DateTime newEta) {
+    throw EtaUpdateException();
+  }
+}
+
+class PendingOrder extends _DefaultStateBehaviour {
   final Order _order;
 
   const PendingOrder(Order order) : _order = order;
@@ -41,18 +65,8 @@ class PendingOrder implements OrderState {
   }
 
   @override
-  void _arrive() {
-    throw OrderStateException();
-  }
-
-  @override
   void _updateEtaTo(DateTime newEta) {
     _order._eta = newEta;
-  }
-
-  @override
-  void _complete() {
-    // TODO: implement complete
   }
 }
 
