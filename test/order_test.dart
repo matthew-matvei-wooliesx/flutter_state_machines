@@ -85,9 +85,17 @@ void main() {
   });
 
   group("Given an order is arrived", () {
+    setUp(() {
+      order = newOrder();
+      order.start();
+      order.arrive();
+    });
+
     group("When the order is started", () {
+      orderStarts() => order.start();
+
       test("Then an OrderStateException is thrown", () {
-        throw UnimplementedError();
+        expect(orderStarts, throws<OrderStateException>());
       });
     });
 

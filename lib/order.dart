@@ -62,7 +62,7 @@ class ArrivedOrder implements OrderState {
 
   @override
   void start() {
-    // TODO: implement start
+    throw OrderStateException();
   }
 }
 
