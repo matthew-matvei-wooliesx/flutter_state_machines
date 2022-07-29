@@ -14,8 +14,12 @@ void main() {
     });
 
     group("When the order is started", () {
+      setUp(() {
+        order.start();
+      });
+
       test("Then the order's state is 'en route'", () {
-        throw UnimplementedError();
+        expect(order.state, isInstanceOf<EnrouteOrder>());
       });
     });
 
