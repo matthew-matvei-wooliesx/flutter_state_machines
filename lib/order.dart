@@ -17,7 +17,9 @@ class Order {
     _state.arrive();
   }
 
-  void updateEtaBy(Duration add) {}
+  void updateEtaBy(Duration etaUpdateDuration) {
+    _eta = _eta.add(etaUpdateDuration);
+  }
 }
 
 class PendingOrder implements OrderState {
