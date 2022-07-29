@@ -52,7 +52,10 @@ void main() {
 
   group("Given an order is en route", () {
     setUp(() {
-      order = newOrder();
+      withClock(Clock.fixed(testTimeSnapshot), () {
+        order = newOrder();
+      });
+
       order.start();
     });
 
@@ -67,8 +70,16 @@ void main() {
     });
 
     group("When the ETA is updated", () {
+      const etaUpdateDuration = Duration(hours: 3);
+
+      setUp(() {
+        order.updateEtaBy(etaUpdateDuration);
+      });
+
       test("Then the order's ETA is successfully updated", () {
-        throw UnimplementedError();
+        withClock(Clock.fixed(testTimeSnapshot), () {
+          expect(order.eta, clock.now().add(etaUpdateDuration));
+        });
       });
     });
   });
