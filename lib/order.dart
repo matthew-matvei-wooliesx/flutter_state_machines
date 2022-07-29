@@ -28,7 +28,7 @@ class PendingOrder implements OrderState {
 
   @override
   void arrive() {
-    // TODO: implement arrive
+    throw OrderStateException();
   }
 }
 
