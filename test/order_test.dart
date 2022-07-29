@@ -13,8 +13,8 @@ void main() {
   });
 
   group("Given an order is pending", () {
-    test("Then the order's state is 'pending'", () {
-      expect(order.state, isInstanceOf<PendingOrder>());
+    test("Then the order's status is 'pending'", () {
+      expect(order.status, "pending");
     });
 
     group("When the order is started", () {

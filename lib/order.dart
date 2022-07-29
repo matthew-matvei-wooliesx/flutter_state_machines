@@ -4,13 +4,15 @@ class Order {
   CustomerSignature? _customerSignature;
 
   Order({required DateTime eta}) : _eta = eta {
-    _state = PendingOrder(this);
+    _state = _PendingOrder(this);
   }
 
   OrderState get state => _state;
   DateTime get eta => _eta;
 
   CustomerSignature? get customerSignature => _customerSignature;
+
+  String get status => _state._status;
 
   void start() {
     _state._start();
@@ -30,7 +32,7 @@ class Order {
   }
 }
 
-class _DefaultStateBehaviour implements OrderState {
+abstract class _DefaultStateBehaviour implements OrderState {
   const _DefaultStateBehaviour();
 
   @override
@@ -54,10 +56,10 @@ class _DefaultStateBehaviour implements OrderState {
   }
 }
 
-class PendingOrder extends _DefaultStateBehaviour {
+class _PendingOrder extends _DefaultStateBehaviour {
   final Order _order;
 
-  const PendingOrder(Order order) : _order = order;
+  const _PendingOrder(Order order) : _order = order;
 
   @override
   void _start() {
@@ -68,6 +70,9 @@ class PendingOrder extends _DefaultStateBehaviour {
   void _updateEtaTo(DateTime newEta) {
     _order._eta = newEta;
   }
+
+  @override
+  String get _status => "pending";
 }
 
 class EnrouteOrder extends _DefaultStateBehaviour {
@@ -84,6 +89,10 @@ class EnrouteOrder extends _DefaultStateBehaviour {
   void _updateEtaTo(DateTime newEta) {
     _order._eta = newEta;
   }
+
+  @override
+  // TODO: implement _status
+  String get _status => throw UnimplementedError();
 }
 
 class ArrivedOrder extends _DefaultStateBehaviour {
@@ -95,11 +104,20 @@ class ArrivedOrder extends _DefaultStateBehaviour {
   void _complete() {
     _order._state = CompletedOrder();
   }
+
+  @override
+  // TODO: implement _status
+  String get _status => throw UnimplementedError();
 }
 
-class CompletedOrder extends _DefaultStateBehaviour {}
+class CompletedOrder extends _DefaultStateBehaviour {
+  @override
+  // TODO: implement _status
+  String get _status => throw UnimplementedError();
+}
 
 abstract class OrderState {
+  String get _status;
   void _start();
   void _arrive();
   void _updateEtaTo(DateTime newEta);
