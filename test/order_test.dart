@@ -1,9 +1,16 @@
+import 'package:flutter_state_machines/order.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
+  late Order order;
+
+  setUp(() {
+    order = Order();
+  });
+
   group("Given an order is pending", () {
     test("Then the order's state is 'pending'", () {
-      throw UnimplementedError();
+      expect(order.state, isInstanceOf<PendingOrder>());
     });
 
     group("When the order is marked en route", () {
