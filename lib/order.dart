@@ -39,7 +39,7 @@ class PendingOrder implements OrderState {
 
   @override
   void updateEtaTo(DateTime newEta) {
-    // TODO: implement updateEtaTo
+    _order._eta = newEta;
   }
 }
 
@@ -60,7 +60,7 @@ class EnrouteOrder implements OrderState {
 
   @override
   void updateEtaTo(DateTime newEta) {
-    // TODO: implement updateEtaTo
+    _order._eta = newEta;
   }
 }
 
