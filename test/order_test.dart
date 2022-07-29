@@ -1,11 +1,15 @@
+import 'package:clock/clock.dart';
 import 'package:flutter_state_machines/order.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   late Order order;
+  final DateTime testTimeSnapshot = clock.now();
 
   setUp(() {
-    order = Order();
+    withClock(Clock.fixed(testTimeSnapshot), () {
+      order = newOrder();
+    });
   });
 
   group("Given an order is pending", () {
@@ -32,15 +36,23 @@ void main() {
     });
 
     group("When the ETA is updated", () {
+      const etaUpdateDuration = Duration(hours: 2);
+
+      setUp(() {
+        order.updateEtaBy(etaUpdateDuration);
+      });
+
       test("Then the order's ETA is successfully updated", () {
-        throw UnimplementedError();
+        withClock(Clock.fixed(testTimeSnapshot), () {
+          expect(order.eta, clock.now().add(etaUpdateDuration));
+        });
       });
     });
   });
 
   group("Given an order is en route", () {
     setUp(() {
-      order = Order();
+      order = newOrder();
       order.start();
     });
 
@@ -89,3 +101,5 @@ void main() {
 }
 
 throws<T extends Exception>() => throwsA(TypeMatcher<T>());
+
+newOrder() => Order(eta: clock.now());

@@ -1,11 +1,13 @@
 class Order {
   late OrderState _state;
+  DateTime _eta;
 
-  Order() {
+  Order({required DateTime eta}) : _eta = eta {
     _state = PendingOrder(this);
   }
 
   OrderState get state => _state;
+  DateTime get eta => _eta;
 
   void start() {
     _state.start();
@@ -14,6 +16,8 @@ class Order {
   void arrive() {
     _state.arrive();
   }
+
+  void updateEtaBy(Duration add) {}
 }
 
 class PendingOrder implements OrderState {
