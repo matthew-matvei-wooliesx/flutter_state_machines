@@ -64,8 +64,8 @@ void main() {
         order.arrive();
       });
 
-      test("Then the order's state is 'arrived'", () {
-        expect(order.state, isInstanceOf<ArrivedOrder>());
+      test("Then the order's status is 'arrived'", () {
+        expect(order.status, "arrived");
       });
     });
 

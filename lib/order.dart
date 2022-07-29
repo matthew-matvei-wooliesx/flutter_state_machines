@@ -82,7 +82,7 @@ class _EnrouteOrder extends _DefaultStateBehaviour {
 
   @override
   void _arrive() {
-    _order._state = ArrivedOrder(_order);
+    _order._state = _ArrivedOrder(_order);
   }
 
   @override
@@ -94,10 +94,10 @@ class _EnrouteOrder extends _DefaultStateBehaviour {
   String get _status => "en route";
 }
 
-class ArrivedOrder extends _DefaultStateBehaviour {
+class _ArrivedOrder extends _DefaultStateBehaviour {
   final Order _order;
 
-  const ArrivedOrder(Order order) : _order = order;
+  const _ArrivedOrder(Order order) : _order = order;
 
   @override
   void _complete() {
@@ -105,8 +105,7 @@ class ArrivedOrder extends _DefaultStateBehaviour {
   }
 
   @override
-  // TODO: implement _status
-  String get _status => throw UnimplementedError();
+  String get _status => "arrived";
 }
 
 class CompletedOrder extends _DefaultStateBehaviour {
