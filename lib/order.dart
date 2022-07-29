@@ -18,7 +18,7 @@ class Order {
   }
 
   void updateEtaBy(Duration etaUpdateDuration) {
-    _eta = _eta.add(etaUpdateDuration);
+    _state.updateEtaTo(_eta.add(etaUpdateDuration));
   }
 }
 
@@ -36,6 +36,11 @@ class PendingOrder implements OrderState {
   void arrive() {
     throw OrderStateException();
   }
+
+  @override
+  void updateEtaTo(DateTime newEta) {
+    // TODO: implement updateEtaTo
+  }
 }
 
 class EnrouteOrder implements OrderState {
@@ -52,6 +57,11 @@ class EnrouteOrder implements OrderState {
   void arrive() {
     _order._state = ArrivedOrder();
   }
+
+  @override
+  void updateEtaTo(DateTime newEta) {
+    // TODO: implement updateEtaTo
+  }
 }
 
 class ArrivedOrder implements OrderState {
@@ -64,11 +74,19 @@ class ArrivedOrder implements OrderState {
   void start() {
     throw OrderStateException();
   }
+
+  @override
+  void updateEtaTo(DateTime newEta) {
+    throw EtaUpdateException();
+  }
 }
 
 abstract class OrderState {
   void start();
   void arrive();
+  void updateEtaTo(DateTime newEta);
 }
 
 class OrderStateException implements Exception {}
+
+class EtaUpdateException implements Exception {}
