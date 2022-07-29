@@ -24,8 +24,10 @@ void main() {
     });
 
     group("When the order arrives", () {
+      orderArrives() => order.arrive();
+
       test("Then an OrderStateException is thrown", () {
-        throw UnimplementedError();
+        expect(orderArrives, throws<OrderStateException>());
       });
     });
 
@@ -82,3 +84,5 @@ void main() {
     });
   });
 }
+
+throws<T extends Exception>() => throwsA(TypeMatcher<T>());

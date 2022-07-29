@@ -10,6 +10,10 @@ class Order {
   void start() {
     _state.start();
   }
+
+  void arrive() {
+    _state.arrive();
+  }
 }
 
 class PendingOrder implements OrderState {
@@ -21,6 +25,11 @@ class PendingOrder implements OrderState {
   void start() {
     _order._state = EnrouteOrder();
   }
+
+  @override
+  void arrive() {
+    // TODO: implement arrive
+  }
 }
 
 class EnrouteOrder implements OrderState {
@@ -28,8 +37,16 @@ class EnrouteOrder implements OrderState {
   void start() {
     // TODO: implement start
   }
+
+  @override
+  void arrive() {
+    // TODO: implement arrive
+  }
 }
 
 abstract class OrderState {
   void start();
+  void arrive();
 }
+
+class OrderStateException implements Exception {}
