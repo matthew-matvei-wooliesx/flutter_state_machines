@@ -7,7 +7,6 @@ class Order {
     _state = _PendingOrder(this);
   }
 
-  OrderState get state => _state;
   DateTime get eta => _eta;
 
   CustomerSignature? get customerSignature => _customerSignature;
