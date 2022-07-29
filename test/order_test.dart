@@ -100,8 +100,10 @@ void main() {
     });
 
     group("When the ETA is updated", () {
+      updatingEta() => order.updateEtaBy(const Duration(hours: 2));
+
       test("Then an EtaUpdateException is thrown", () {
-        throw UnimplementedError();
+        expect(updatingEta, throws<EtaUpdateException>());
       });
     });
 
