@@ -108,8 +108,12 @@ void main() {
     });
 
     group("When the order is completed", () {
+      setUp(() {
+        order.complete();
+      });
+
       test("Then the order's state is 'complete'", () {
-        throw UnimplementedError();
+        expect(order.state, isInstanceOf<CompletedOrder>());
       });
     });
   });
