@@ -21,7 +21,9 @@ class Order {
     _state.updateEtaTo(_eta.add(etaUpdateDuration));
   }
 
-  void complete() {}
+  void complete() {
+    _state.complete();
+  }
 }
 
 class PendingOrder implements OrderState {
@@ -43,6 +45,11 @@ class PendingOrder implements OrderState {
   void updateEtaTo(DateTime newEta) {
     _order._eta = newEta;
   }
+
+  @override
+  void complete() {
+    // TODO: implement complete
+  }
 }
 
 class EnrouteOrder implements OrderState {
@@ -57,16 +64,25 @@ class EnrouteOrder implements OrderState {
 
   @override
   void arrive() {
-    _order._state = ArrivedOrder();
+    _order._state = ArrivedOrder(_order);
   }
 
   @override
   void updateEtaTo(DateTime newEta) {
     _order._eta = newEta;
   }
+
+  @override
+  void complete() {
+    // TODO: implement complete
+  }
 }
 
 class ArrivedOrder implements OrderState {
+  final Order _order;
+
+  const ArrivedOrder(Order order) : _order = order;
+
   @override
   void arrive() {
     // TODO: implement arrive
@@ -80,6 +96,11 @@ class ArrivedOrder implements OrderState {
   @override
   void updateEtaTo(DateTime newEta) {
     throw EtaUpdateException();
+  }
+
+  @override
+  void complete() {
+    _order._state = CompletedOrder();
   }
 }
 
@@ -98,12 +119,18 @@ class CompletedOrder implements OrderState {
   void updateEtaTo(DateTime newEta) {
     // TODO: implement updateEtaTo
   }
+
+  @override
+  void complete() {
+    // TODO: implement complete
+  }
 }
 
 abstract class OrderState {
   void start();
   void arrive();
   void updateEtaTo(DateTime newEta);
+  void complete();
 }
 
 class OrderStateException implements Exception {}
