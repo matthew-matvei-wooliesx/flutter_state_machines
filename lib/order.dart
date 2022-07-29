@@ -70,15 +70,10 @@ class PendingOrder extends _DefaultStateBehaviour {
   }
 }
 
-class EnrouteOrder implements OrderState {
+class EnrouteOrder extends _DefaultStateBehaviour {
   final Order _order;
 
   const EnrouteOrder(Order order) : _order = order;
-
-  @override
-  void _start() {
-    // TODO: implement start
-  }
 
   @override
   void _arrive() {
@@ -88,11 +83,6 @@ class EnrouteOrder implements OrderState {
   @override
   void _updateEtaTo(DateTime newEta) {
     _order._eta = newEta;
-  }
-
-  @override
-  void _complete() {
-    // TODO: implement complete
   }
 }
 
