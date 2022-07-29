@@ -91,6 +91,10 @@ void main() {
       order.arrive();
     });
 
+    test("Then the customer signature is not available", () {
+      expect(order.customerSignature, isNull);
+    });
+
     group("When the order is started", () {
       orderStarts() => order.start();
 

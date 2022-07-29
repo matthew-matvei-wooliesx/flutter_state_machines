@@ -9,6 +9,8 @@ class Order {
   OrderState get state => _state;
   DateTime get eta => _eta;
 
+  CustomerSignature? get customerSignature => null;
+
   void start() {
     _state.start();
   }
@@ -132,6 +134,8 @@ abstract class OrderState {
   void updateEtaTo(DateTime newEta);
   void complete();
 }
+
+class CustomerSignature {}
 
 class OrderStateException implements Exception {}
 
