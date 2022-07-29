@@ -13,19 +13,19 @@ class Order {
   CustomerSignature? get customerSignature => _customerSignature;
 
   void start() {
-    _state.start();
+    _state._start();
   }
 
   void arrive() {
-    _state.arrive();
+    _state._arrive();
   }
 
   void updateEtaBy(Duration etaUpdateDuration) {
-    _state.updateEtaTo(_eta.add(etaUpdateDuration));
+    _state._updateEtaTo(_eta.add(etaUpdateDuration));
   }
 
   void complete({required CustomerSignature customerSignature}) {
-    _state.complete();
+    _state._complete();
     _customerSignature = customerSignature;
   }
 }
@@ -36,22 +36,22 @@ class PendingOrder implements OrderState {
   const PendingOrder(Order order) : _order = order;
 
   @override
-  void start() {
+  void _start() {
     _order._state = EnrouteOrder(_order);
   }
 
   @override
-  void arrive() {
+  void _arrive() {
     throw OrderStateException();
   }
 
   @override
-  void updateEtaTo(DateTime newEta) {
+  void _updateEtaTo(DateTime newEta) {
     _order._eta = newEta;
   }
 
   @override
-  void complete() {
+  void _complete() {
     // TODO: implement complete
   }
 }
@@ -62,22 +62,22 @@ class EnrouteOrder implements OrderState {
   const EnrouteOrder(Order order) : _order = order;
 
   @override
-  void start() {
+  void _start() {
     // TODO: implement start
   }
 
   @override
-  void arrive() {
+  void _arrive() {
     _order._state = ArrivedOrder(_order);
   }
 
   @override
-  void updateEtaTo(DateTime newEta) {
+  void _updateEtaTo(DateTime newEta) {
     _order._eta = newEta;
   }
 
   @override
-  void complete() {
+  void _complete() {
     // TODO: implement complete
   }
 }
@@ -88,53 +88,53 @@ class ArrivedOrder implements OrderState {
   const ArrivedOrder(Order order) : _order = order;
 
   @override
-  void arrive() {
+  void _arrive() {
     // TODO: implement arrive
   }
 
   @override
-  void start() {
+  void _start() {
     throw OrderStateException();
   }
 
   @override
-  void updateEtaTo(DateTime newEta) {
+  void _updateEtaTo(DateTime newEta) {
     throw EtaUpdateException();
   }
 
   @override
-  void complete() {
+  void _complete() {
     _order._state = CompletedOrder();
   }
 }
 
 class CompletedOrder implements OrderState {
   @override
-  void arrive() {
+  void _arrive() {
     // TODO: implement arrive
   }
 
   @override
-  void start() {
+  void _start() {
     // TODO: implement start
   }
 
   @override
-  void updateEtaTo(DateTime newEta) {
+  void _updateEtaTo(DateTime newEta) {
     // TODO: implement updateEtaTo
   }
 
   @override
-  void complete() {
+  void _complete() {
     // TODO: implement complete
   }
 }
 
 abstract class OrderState {
-  void start();
-  void arrive();
-  void updateEtaTo(DateTime newEta);
-  void complete();
+  void _start();
+  void _arrive();
+  void _updateEtaTo(DateTime newEta);
+  void _complete();
 }
 
 class CustomerSignature {}
