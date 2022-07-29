@@ -107,7 +107,7 @@ void main() {
       });
     });
 
-    group("When the order is marked complete", () {
+    group("When the order is completed", () {
       test("Then the order's state is 'complete'", () {
         throw UnimplementedError();
       });
