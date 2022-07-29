@@ -63,7 +63,7 @@ class _PendingOrder extends _DefaultStateBehaviour {
 
   @override
   void _start() {
-    _order._state = EnrouteOrder(_order);
+    _order._state = _EnrouteOrder(_order);
   }
 
   @override
@@ -75,10 +75,10 @@ class _PendingOrder extends _DefaultStateBehaviour {
   String get _status => "pending";
 }
 
-class EnrouteOrder extends _DefaultStateBehaviour {
+class _EnrouteOrder extends _DefaultStateBehaviour {
   final Order _order;
 
-  const EnrouteOrder(Order order) : _order = order;
+  const _EnrouteOrder(Order order) : _order = order;
 
   @override
   void _arrive() {
@@ -91,8 +91,7 @@ class EnrouteOrder extends _DefaultStateBehaviour {
   }
 
   @override
-  // TODO: implement _status
-  String get _status => throw UnimplementedError();
+  String get _status => "en route";
 }
 
 class ArrivedOrder extends _DefaultStateBehaviour {

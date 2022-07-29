@@ -22,8 +22,8 @@ void main() {
         order.start();
       });
 
-      test("Then the order's state is 'en route'", () {
-        expect(order.state, isInstanceOf<EnrouteOrder>());
+      test("Then the order's status is 'en route'", () {
+        expect(order.status, "en route");
       });
     });
 
