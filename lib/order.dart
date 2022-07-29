@@ -86,25 +86,10 @@ class EnrouteOrder extends _DefaultStateBehaviour {
   }
 }
 
-class ArrivedOrder implements OrderState {
+class ArrivedOrder extends _DefaultStateBehaviour {
   final Order _order;
 
   const ArrivedOrder(Order order) : _order = order;
-
-  @override
-  void _arrive() {
-    // TODO: implement arrive
-  }
-
-  @override
-  void _start() {
-    throw OrderStateException();
-  }
-
-  @override
-  void _updateEtaTo(DateTime newEta) {
-    throw EtaUpdateException();
-  }
 
   @override
   void _complete() {
