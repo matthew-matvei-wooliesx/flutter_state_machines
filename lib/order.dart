@@ -23,7 +23,7 @@ class PendingOrder implements OrderState {
 
   @override
   void start() {
-    _order._state = EnrouteOrder();
+    _order._state = EnrouteOrder(_order);
   }
 
   @override
@@ -33,6 +33,10 @@ class PendingOrder implements OrderState {
 }
 
 class EnrouteOrder implements OrderState {
+  final Order _order;
+
+  const EnrouteOrder(Order order) : _order = order;
+
   @override
   void start() {
     // TODO: implement start
@@ -40,7 +44,7 @@ class EnrouteOrder implements OrderState {
 
   @override
   void arrive() {
-    // TODO: implement arrive
+    _order._state = ArrivedOrder();
   }
 }
 
