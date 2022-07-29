@@ -39,9 +39,18 @@ void main() {
   });
 
   group("Given an order is en route", () {
+    setUp(() {
+      order = Order();
+      order.start();
+    });
+
     group("When the order arrives", () {
+      setUp(() {
+        order.arrive();
+      });
+
       test("Then the order's state is 'arrived'", () {
-        throw UnimplementedError();
+        expect(order.state, isInstanceOf<ArrivedOrder>());
       });
     });
 

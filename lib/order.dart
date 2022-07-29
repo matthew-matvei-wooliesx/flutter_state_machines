@@ -44,6 +44,18 @@ class EnrouteOrder implements OrderState {
   }
 }
 
+class ArrivedOrder implements OrderState {
+  @override
+  void arrive() {
+    // TODO: implement arrive
+  }
+
+  @override
+  void start() {
+    // TODO: implement start
+  }
+}
+
 abstract class OrderState {
   void start();
   void arrive();
