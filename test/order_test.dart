@@ -23,7 +23,7 @@ void main() {
       });
     });
 
-    group("When the order is marked arrived", () {
+    group("When the order arrives", () {
       test("Then an OrderStateException is thrown", () {
         throw UnimplementedError();
       });
@@ -43,7 +43,7 @@ void main() {
       });
     });
 
-    group("When the order is marked arrived", () {
+    group("When the order arrives", () {
       test("Then the order's state is 'arrived'", () {
         throw UnimplementedError();
       });
