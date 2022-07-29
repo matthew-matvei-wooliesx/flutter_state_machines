@@ -1,6 +1,7 @@
 class Order {
   late OrderState _state;
   DateTime _eta;
+  CustomerSignature? _customerSignature;
 
   Order({required DateTime eta}) : _eta = eta {
     _state = PendingOrder(this);
@@ -9,7 +10,7 @@ class Order {
   OrderState get state => _state;
   DateTime get eta => _eta;
 
-  CustomerSignature? get customerSignature => null;
+  CustomerSignature? get customerSignature => _customerSignature;
 
   void start() {
     _state.start();
@@ -23,8 +24,9 @@ class Order {
     _state.updateEtaTo(_eta.add(etaUpdateDuration));
   }
 
-  void complete() {
+  void complete({required CustomerSignature customerSignature}) {
     _state.complete();
+    _customerSignature = customerSignature;
   }
 }
 

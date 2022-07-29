@@ -113,7 +113,7 @@ void main() {
 
     group("When the order is completed", () {
       setUp(() {
-        order.complete();
+        order.complete(customerSignature: CustomerSignature());
       });
 
       test("Then the order's state is 'complete'", () {
@@ -123,8 +123,15 @@ void main() {
   });
 
   group("Given an order is complete", () {
+    setUp(() {
+      order = newOrder();
+      order.start();
+      order.arrive();
+      order.complete(customerSignature: CustomerSignature());
+    });
+
     test("Then the customer signature is available", () {
-      throw UnimplementedError();
+      expect(order.customerSignature, isNotNull);
     });
   });
 }
