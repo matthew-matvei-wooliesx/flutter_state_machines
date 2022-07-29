@@ -13,7 +13,7 @@ void main() {
       expect(order.state, isInstanceOf<PendingOrder>());
     });
 
-    group("When the order is marked en route", () {
+    group("When the order is started", () {
       test("Then the order's state is 'en route'", () {
         throw UnimplementedError();
       });
@@ -53,7 +53,7 @@ void main() {
   });
 
   group("Given an order is arrived", () {
-    group("When the order is marked en route", () {
+    group("When the order is started", () {
       test("Then an OrderStateException is thrown", () {
         throw UnimplementedError();
       });
