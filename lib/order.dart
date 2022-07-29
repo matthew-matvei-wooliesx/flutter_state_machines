@@ -97,27 +97,7 @@ class ArrivedOrder extends _DefaultStateBehaviour {
   }
 }
 
-class CompletedOrder implements OrderState {
-  @override
-  void _arrive() {
-    // TODO: implement arrive
-  }
-
-  @override
-  void _start() {
-    // TODO: implement start
-  }
-
-  @override
-  void _updateEtaTo(DateTime newEta) {
-    // TODO: implement updateEtaTo
-  }
-
-  @override
-  void _complete() {
-    // TODO: implement complete
-  }
-}
+class CompletedOrder extends _DefaultStateBehaviour {}
 
 abstract class OrderState {
   void _start();
