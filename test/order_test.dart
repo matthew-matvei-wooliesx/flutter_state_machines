@@ -116,8 +116,8 @@ void main() {
         order.complete(customerSignature: CustomerSignature());
       });
 
-      test("Then the order's state is 'complete'", () {
-        expect(order.state, isInstanceOf<CompletedOrder>());
+      test("Then the order's status is 'complete'", () {
+        expect(order.status, "complete");
       });
     });
   });

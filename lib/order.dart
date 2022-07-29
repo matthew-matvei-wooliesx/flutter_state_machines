@@ -101,17 +101,16 @@ class _ArrivedOrder extends _DefaultStateBehaviour {
 
   @override
   void _complete() {
-    _order._state = CompletedOrder();
+    _order._state = _CompletedOrder();
   }
 
   @override
   String get _status => "arrived";
 }
 
-class CompletedOrder extends _DefaultStateBehaviour {
+class _CompletedOrder extends _DefaultStateBehaviour {
   @override
-  // TODO: implement _status
-  String get _status => throw UnimplementedError();
+  String get _status => "complete";
 }
 
 abstract class OrderState {
