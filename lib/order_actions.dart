@@ -1,15 +1,23 @@
 import 'order.dart';
 
-abstract class OrderActions {
+class OrderActions {
   const OrderActions._();
 
   static List<_Action> from(Order? optionalOrder) {
+    if (optionalOrder == null) {
+      return const OrderActions._()._actions;
+    }
+
     throw UnimplementedError();
   }
+
+  List<_Action> get _actions => [_newOrderAction];
+
+  _Action get _newOrderAction => const _Action(label: "New");
 }
 
 class _Action {
   final String label;
 
-  _Action({required this.label});
+  const _Action({required this.label});
 }
