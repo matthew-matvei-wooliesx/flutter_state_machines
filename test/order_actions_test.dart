@@ -10,7 +10,7 @@ void main() {
 
     group("When getting Order Actions", () {
       late _ActionCallback mockNewOrderCallback;
-      late List<dynamic> orderActions;
+      late List<OrderAction> orderActions;
 
       setUp(() {
         mockNewOrderCallback = _MockActionCallback();
