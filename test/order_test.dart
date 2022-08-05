@@ -12,6 +12,19 @@ void main() {
     });
   });
 
+  test("An order has an ID", () {
+    expect(order.id, isNotEmpty);
+  });
+
+  test("Order IDs are always unique", () {
+    final orderOne = newOrder();
+    final orderTwo = newOrder();
+    final orderThree = newOrder();
+
+    expect(orderOne.id, doesNotEqual(orderTwo.id));
+    expect(orderTwo.id, doesNotEqual(orderThree.id));
+  });
+
   group("Given an order is pending", () {
     test("Then the order's status is 'pending'", () {
       expect(order.status, "pending");
@@ -136,6 +149,7 @@ void main() {
   });
 }
 
-throws<T extends Exception>() => throwsA(TypeMatcher<T>());
+Matcher throws<T extends Exception>() => throwsA(TypeMatcher<T>());
+Matcher doesNotEqual(Object? expected) => isNot(equals(expected));
 
-newOrder() => Order(eta: clock.now());
+Order newOrder() => Order(eta: clock.now());

@@ -1,9 +1,15 @@
+import 'package:uuid/uuid.dart';
+
 class Order {
   late OrderState _state;
   DateTime _eta;
   CustomerSignature? _customerSignature;
 
-  Order({required DateTime eta}) : _eta = eta {
+  final String id;
+
+  Order({required DateTime eta})
+      : _eta = eta,
+        id = const Uuid().v4() {
     _state = _PendingOrder(this);
   }
 
