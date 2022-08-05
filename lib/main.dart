@@ -33,7 +33,7 @@ class _OrderAdminPageState extends State<_OrderAdminPage> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        if (_order != null)
+        if (_order != null) ...[
           Row(
             children: [
               const Expanded(child: Text("Order")),
@@ -42,6 +42,17 @@ class _OrderAdminPageState extends State<_OrderAdminPage> {
               )
             ],
           ),
+          Row(
+            children: [
+              const Expanded(child: Text("Current ETA")),
+              Expanded(
+                  child: Text(
+                _order!.eta.toString(),
+                key: const Key("EtaDisplay"),
+              ))
+            ],
+          )
+        ],
         ButtonBar(
           children: [
             ElevatedButton(
