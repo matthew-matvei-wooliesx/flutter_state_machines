@@ -14,7 +14,19 @@ class OrderAdmin extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: ElevatedButton(onPressed: () {}, child: const Text("New")),
+      home: _OrderAdminPage(),
     );
+  }
+}
+
+class _OrderAdminPage extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _OrderAdminPageState();
+}
+
+class _OrderAdminPageState extends State<_OrderAdminPage> {
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(onPressed: () {}, child: const Text("New"));
   }
 }
