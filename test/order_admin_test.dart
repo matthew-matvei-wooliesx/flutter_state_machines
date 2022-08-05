@@ -58,11 +58,30 @@ void main() {
       expect(tester.firstWidget<Text>(_findingEtaDisplay()).data, isNotEmpty);
     });
   });
+
+  group("Given an order has been started", () {
+    testWidgets("Then the order cannot be started again", (tester) async {
+      await tester.pumpWidget(const OrderAdmin());
+      await tester.startNewOrder();
+
+      expect(_findingStartButton(), findsOneWidget);
+      expect(
+        tester.firstWidget<ElevatedButton>(_findingStartButton()).enabled,
+        isFalse,
+      );
+    });
+  });
 }
 
 extension _OrderInteractions on WidgetTester {
   Future<void> createNewOrder() async {
     await tap(_findingNewButton());
+    await pump();
+  }
+
+  Future<void> startNewOrder() async {
+    await createNewOrder();
+    await tap(_findingStartButton());
     await pump();
   }
 }
