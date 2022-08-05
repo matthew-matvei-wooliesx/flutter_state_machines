@@ -18,6 +18,11 @@ void main() {
         expect(_findingCompleteButton(), findsNothing);
       },
     );
+
+    testWidgets("Then a current ETA is not shown", (tester) async {
+      await tester.pumpWidget(const OrderAdmin());
+      expect(_findingEtaDisplay(), findsNothing);
+    });
   });
 
   group("Given an order exists", () {
@@ -43,6 +48,14 @@ void main() {
       expect(_findingStartButton(), findsOneWidget);
       expect(_findingArriveButton(), findsOneWidget);
       expect(_findingCompleteButton(), findsOneWidget);
+    });
+
+    testWidgets("Then the order's current ETA is shown", (tester) async {
+      await tester.pumpWidget(const OrderAdmin());
+      await tester.createNewOrder();
+
+      expect(_findingEtaDisplay(), findsOneWidget);
+      expect(tester.firstWidget<Text>(_findingEtaDisplay()).data, isNotEmpty);
     });
   });
 }
@@ -70,3 +83,4 @@ Finder _findingCompleteButton() => find.widgetWithText(
       ElevatedButton,
       "Complete",
     );
+Finder _findingEtaDisplay() => find.byKey(const Key("EtaDisplay"));
