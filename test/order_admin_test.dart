@@ -11,8 +11,16 @@ void main() {
   });
 
   group("Given an order exists", () {
-    testWidgets("Then the order's ID is shown", (tester) {
-      throw UnimplementedError();
+    testWidgets("Then the order's ID is shown", (tester) async {
+      await tester.pumpWidget(const OrderAdmin());
+      await tester.tap(find.widgetWithText(ElevatedButton, "New"));
+      await tester.pump();
+
+      final orderIdText = find.byKey(const Key("OrderId"));
+
+      expect(orderIdText, findsOneWidget);
+
+      expect(tester.firstWidget<Text>(orderIdText).data, isNotEmpty);
     });
 
     testWidgets("Then a button to create a new route is shown", (tester) {
