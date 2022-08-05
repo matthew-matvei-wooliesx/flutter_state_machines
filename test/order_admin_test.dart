@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group("Given an order has not yet been created", () {
-    testWidgets("Then a button to create a new route is shown", (tester) async {
+    testWidgets("Then a button to create a new order is shown", (tester) async {
       await tester.pumpWidget(const OrderAdmin());
       expect(_findingNewButton(), findsOneWidget);
     });
@@ -21,7 +21,7 @@ void main() {
       expect(tester.firstWidget<Text>(orderIdText).data, isNotEmpty);
     });
 
-    testWidgets("Then a button to create a new route is shown", (tester) async {
+    testWidgets("Then a button to create a new order is shown", (tester) async {
       await tester.pumpWidget(const OrderAdmin());
       await tester.createNewOrder();
       expect(_findingNewButton(), findsOneWidget);
