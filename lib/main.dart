@@ -60,7 +60,10 @@ class _OrderAdminPageState extends State<_OrderAdminPage> {
               child: const Text("New"),
             ),
             if (_order != null) ...[
-              ElevatedButton(onPressed: () {}, child: const Text("Start")),
+              ElevatedButton(
+                onPressed: _order!.status == "en route" ? null : _startOrder,
+                child: const Text("Start"),
+              ),
               ElevatedButton(onPressed: () {}, child: const Text("Arrive")),
               ElevatedButton(onPressed: () {}, child: const Text("Complete"))
             ]
@@ -73,6 +76,12 @@ class _OrderAdminPageState extends State<_OrderAdminPage> {
   void _createNewOrder() {
     setState(() {
       _order = Order(eta: clock.hoursFromNow(6));
+    });
+  }
+
+  void _startOrder() {
+    setState(() {
+      _order!.start();
     });
   }
 }
