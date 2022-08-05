@@ -8,6 +8,16 @@ void main() {
       await tester.pumpWidget(const OrderAdmin());
       expect(_findingNewButton(), findsOneWidget);
     });
+
+    testWidgets(
+      "Then buttons to modify the order do not exist",
+      (tester) async {
+        await tester.pumpWidget(const OrderAdmin());
+        expect(_findingStartButton(), findsNothing);
+        expect(_findingArriveButton(), findsNothing);
+        expect(_findingCompleteButton(), findsNothing);
+      },
+    );
   });
 
   group("Given an order exists", () {
@@ -26,6 +36,14 @@ void main() {
       await tester.createNewOrder();
       expect(_findingNewButton(), findsOneWidget);
     });
+
+    testWidgets("Then buttons to modify the order exist", (tester) async {
+      await tester.pumpWidget(const OrderAdmin());
+      await tester.createNewOrder();
+      expect(_findingStartButton(), findsOneWidget);
+      expect(_findingArriveButton(), findsOneWidget);
+      expect(_findingCompleteButton(), findsOneWidget);
+    });
   });
 }
 
@@ -36,4 +54,19 @@ extension _OrderInteractions on WidgetTester {
   }
 }
 
-Finder _findingNewButton() => find.widgetWithText(ElevatedButton, "New");
+Finder _findingNewButton() => find.widgetWithText(
+      ElevatedButton,
+      "New",
+    );
+Finder _findingStartButton() => find.widgetWithText(
+      ElevatedButton,
+      "Start",
+    );
+Finder _findingArriveButton() => find.widgetWithText(
+      ElevatedButton,
+      "Arrive",
+    );
+Finder _findingCompleteButton() => find.widgetWithText(
+      ElevatedButton,
+      "Complete",
+    );
