@@ -71,6 +71,19 @@ void main() {
       );
     });
   });
+
+  group("Given an order has arrived", () {
+    testWidgets("Then the order cannot arrive again", (tester) async {
+      await tester.pumpWidget(const OrderAdmin());
+      await tester.arriveNewOrder();
+
+      expect(_findingArriveButton(), findsOneWidget);
+      expect(
+        tester.firstWidget<ElevatedButton>(_findingArriveButton()).enabled,
+        isFalse,
+      );
+    });
+  });
 }
 
 extension _OrderInteractions on WidgetTester {
@@ -82,6 +95,12 @@ extension _OrderInteractions on WidgetTester {
   Future<void> startNewOrder() async {
     await createNewOrder();
     await tap(_findingStartButton());
+    await pump();
+  }
+
+  Future<void> arriveNewOrder() async {
+    await startNewOrder();
+    await tap(_findingArriveButton());
     await pump();
   }
 }

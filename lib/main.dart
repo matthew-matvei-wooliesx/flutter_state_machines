@@ -64,7 +64,9 @@ class _OrderAdminPageState extends State<_OrderAdminPage> {
                 onPressed: _order!.status == "en route" ? null : _startOrder,
                 child: const Text("Start"),
               ),
-              ElevatedButton(onPressed: () {}, child: const Text("Arrive")),
+              ElevatedButton(
+                  onPressed: _order!.status == "arrived" ? null : _arriveOrder,
+                  child: const Text("Arrive")),
               ElevatedButton(onPressed: () {}, child: const Text("Complete"))
             ]
           ],
@@ -82,6 +84,12 @@ class _OrderAdminPageState extends State<_OrderAdminPage> {
   void _startOrder() {
     setState(() {
       _order!.start();
+    });
+  }
+
+  void _arriveOrder() {
+    setState(() {
+      _order!.arrive();
     });
   }
 }
