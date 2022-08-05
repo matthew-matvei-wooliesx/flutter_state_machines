@@ -42,7 +42,11 @@ class _OrderAdminPageState extends State<_OrderAdminPage> {
               )
             ],
           ),
-        ElevatedButton(onPressed: _createNewOrder, child: const Text("New")),
+        ButtonBar(
+          children: [
+            ElevatedButton(onPressed: _createNewOrder, child: const Text("New"))
+          ],
+        ),
       ],
     );
   }
