@@ -44,7 +44,15 @@ class _OrderAdminPageState extends State<_OrderAdminPage> {
           ),
         ButtonBar(
           children: [
-            ElevatedButton(onPressed: _createNewOrder, child: const Text("New"))
+            ElevatedButton(
+              onPressed: _createNewOrder,
+              child: const Text("New"),
+            ),
+            if (_order != null) ...[
+              ElevatedButton(onPressed: () {}, child: const Text("Start")),
+              ElevatedButton(onPressed: () {}, child: const Text("Arrive")),
+              ElevatedButton(onPressed: () {}, child: const Text("Complete"))
+            ]
           ],
         ),
       ],
