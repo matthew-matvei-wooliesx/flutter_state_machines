@@ -1,6 +1,7 @@
 import 'package:clock/clock.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_state_machines/order.dart';
+import 'package:flutter_state_machines/order_actions.dart';
 
 void main() {
   runApp(const OrderAdmin());
@@ -55,10 +56,9 @@ class _OrderAdminPageState extends State<_OrderAdminPage> {
         ],
         ButtonBar(
           children: [
-            ElevatedButton(
-              onPressed: _createNewOrder,
-              child: const Text("New"),
-            ),
+            ...OrderActions.from(_order,
+                    callbacks: OrderActionsCallbacks(newOrder: _createNewOrder))
+                .map(_actionToButton),
             if (_order != null) ...[
               ElevatedButton(
                 onPressed: _order!.status == "en route" ? null : _startOrder,
@@ -93,3 +93,8 @@ class _OrderAdminPageState extends State<_OrderAdminPage> {
     });
   }
 }
+
+Widget _actionToButton(OrderAction action) => ElevatedButton(
+      onPressed: () => action(),
+      child: Text(action.label),
+    );

@@ -6,20 +6,19 @@ class OrderActions {
   const OrderActions._({required void Function() newOrder})
       : _newOrder = newOrder;
 
-  static List<_Action> from(
+  static List<OrderAction> from(
     Order? optionalOrder, {
     required OrderActionsCallbacks callbacks,
   }) {
-    if (optionalOrder == null) {
-      return OrderActions._(newOrder: callbacks._newOrder)._actions;
-    }
-
-    throw UnimplementedError();
+    return OrderActions._(newOrder: callbacks._newOrder)._actions;
   }
 
-  List<_Action> get _actions => [_newOrderAction];
+  List<OrderAction> get _actions => [_newOrderAction];
 
-  _Action get _newOrderAction => _Action(label: "New", callback: _newOrder);
+  OrderAction get _newOrderAction => OrderAction._(
+        label: "New",
+        callback: _newOrder,
+      );
 }
 
 class OrderActionsCallbacks {
@@ -29,11 +28,11 @@ class OrderActionsCallbacks {
       : _newOrder = newOrder;
 }
 
-class _Action {
+class OrderAction {
   final String label;
   final void Function() _callback;
 
-  const _Action({required this.label, required void Function() callback})
+  const OrderAction._({required this.label, required void Function() callback})
       : _callback = callback;
 
   void call() => _callback();
