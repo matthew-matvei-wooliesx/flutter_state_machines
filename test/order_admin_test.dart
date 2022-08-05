@@ -21,8 +21,10 @@ void main() {
       expect(tester.firstWidget<Text>(orderIdText).data, isNotEmpty);
     });
 
-    testWidgets("Then a button to create a new route is shown", (tester) {
-      throw UnimplementedError();
+    testWidgets("Then a button to create a new route is shown", (tester) async {
+      await tester.pumpWidget(const OrderAdmin());
+      await tester.createNewOrder();
+      expect(_findingNewButton(), findsOneWidget);
     });
   });
 }
