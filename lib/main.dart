@@ -56,9 +56,15 @@ class _OrderAdminPageState extends State<_OrderAdminPage> {
         ],
         ButtonBar(
           children: [
-            ...OrderActions.from(_order,
-                    callbacks: OrderActionsCallbacks(newOrder: _createNewOrder))
-                .map(_actionToButton),
+            ...OrderActions.from(
+              _order,
+              callbacks: OrderActionsCallbacks(
+                newOrder: _createNewOrder,
+                startOrder: _startOrder,
+                arriveOrder: _arriveOrder,
+                completeOrder: () {},
+              ),
+            ).map(_actionToButton),
             if (_order != null) ...[
               ElevatedButton(
                 onPressed: _order!.status == "en route" ? null : _startOrder,
