@@ -235,6 +235,70 @@ void main() {
       });
     });
   });
+
+  group("Given a completed order", () {
+    final Order order = Order(eta: clock.now());
+    order.start();
+    order.arrive();
+    order.complete(customerSignature: CustomerSignature());
+
+    group("When getting Order Actions", () {
+      late Iterable<OrderAction> orderActions;
+
+      setUp(() {
+        orderActions = OrderActions.from(
+          order,
+          callbacks: OrderActionsCallbacks(
+            newOrder: mockNewOrderCallback,
+            startOrder: mockStartOrderCallback,
+            arriveOrder: mockArriveOrderCallback,
+            completeOrder: mockCompleteOrderCallback,
+          ),
+        );
+      });
+
+      test("Then a new order can still be created", () {
+        expect(orderActions, isNotEmpty);
+
+        orderActions.findNewAction().call();
+
+        verify(mockNewOrderCallback()).called(1);
+      });
+
+      test("Then the order cannot be started", () {
+        expect(orderActions, isNotEmpty);
+
+        final startOrderAction = orderActions.findStartAction();
+
+        startOrderAction.call();
+
+        expect(startOrderAction.callable, isFalse);
+        verifyNever(mockStartOrderCallback());
+      });
+
+      test("Then the order cannot arrive", () {
+        expect(orderActions, isNotEmpty);
+
+        final arriveOrderAction = orderActions.findArriveAction();
+
+        arriveOrderAction.call();
+
+        expect(arriveOrderAction.callable, isFalse);
+        verifyNever(mockArriveOrderCallback());
+      });
+
+      test("Then the order cannot be completed", () {
+        expect(orderActions, isNotEmpty);
+
+        final completeOrderAction = orderActions.findCompleteAction();
+
+        completeOrderAction.call();
+
+        expect(completeOrderAction.callable, isFalse);
+        verifyNever(mockCompleteOrderCallback());
+      });
+    });
+  });
 }
 
 abstract class _ActionCallback {

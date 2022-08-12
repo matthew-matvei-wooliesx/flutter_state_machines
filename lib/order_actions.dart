@@ -35,6 +35,11 @@ abstract class OrderActions {
             newOrder: callbacks._newOrder,
             completeOrder: callbacks._completeOrder,
           )._actions;
+        case "complete":
+          return _CompletedOrderActions._(
+            order: optionalOrder,
+            newOrder: callbacks._newOrder,
+          )._actions;
         default:
           throw ArgumentError.value(
             optionalOrder.status,
@@ -146,6 +151,13 @@ class _ArrivedOrderActions extends _DefaultOrderActions {
         label: "Complete",
         callback: _completeOrder,
       );
+}
+
+class _CompletedOrderActions extends _DefaultOrderActions {
+  const _CompletedOrderActions._({
+    required Order order,
+    required void Function() newOrder,
+  }) : super._(optionalOrder: order, newOrder: newOrder);
 }
 
 class OrderActionsCallbacks {
