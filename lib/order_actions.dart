@@ -50,14 +50,15 @@ abstract class OrderActions {
     }
   }
 
-  Iterable<OrderAction> get _actions => [
-        _newOrderAction,
-        if (_optionalOrder != null) ...[
-          _startOrderAction,
-          _arriveOrderAction,
-          _completeOrderAction,
-        ]
-      ];
+  Iterable<OrderAction> get _actions sync* {
+    yield _newOrderAction;
+
+    if (_optionalOrder != null) {
+      yield _startOrderAction;
+      yield _arriveOrderAction;
+      yield _completeOrderAction;
+    }
+  }
 
   OrderAction get _newOrderAction;
   OrderAction get _startOrderAction;
