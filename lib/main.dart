@@ -101,6 +101,6 @@ class _OrderAdminPageState extends State<_OrderAdminPage> {
 }
 
 Widget _actionToButton(OrderAction action) => ElevatedButton(
-      onPressed: () => action(),
+      onPressed: action.callable ? () => action() : null,
       child: Text(action.label),
     );
