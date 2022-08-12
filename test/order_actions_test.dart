@@ -82,13 +82,17 @@ void main() {
       test("Then a new order can still be created", () {
         expect(orderActions, isNotEmpty);
 
-        orderActions.firstWhere((action) => action.label == "New").call();
+        orderActions.findNewAction().call();
 
         verify(mockNewOrderCallback()).called(1);
       });
 
       test("Then the order can be started", () {
-        throw UnimplementedError();
+        expect(orderActions, isNotEmpty);
+
+        orderActions.findStartAction().call();
+
+        verify(mockStartOrderCallback()).called(1);
       });
 
       test("Then the order cannot arrive", () {
@@ -123,7 +127,7 @@ void main() {
       test("Then a new order can still be created", () {
         expect(orderActions, isNotEmpty);
 
-        orderActions.firstWhere((action) => action.label == "New").call();
+        orderActions.findNewAction().call();
 
         verify(mockNewOrderCallback()).called(1);
       });
@@ -131,19 +135,18 @@ void main() {
       test("Then the order cannot be started", () {
         expect(orderActions, isNotEmpty);
 
-        final newOrderAction =
-            orderActions.firstWhere((action) => action.label == "Start");
+        final startOrderAction = orderActions.findStartAction();
 
-        newOrderAction.call();
+        startOrderAction.call();
 
-        expect(newOrderAction.callable, isFalse);
+        expect(startOrderAction.callable, isFalse);
         verifyNever(mockStartOrderCallback());
       });
 
       test("Then the order can arrive", () {
         expect(orderActions, isNotEmpty);
 
-        orderActions.firstWhere((action) => action.label == "Arrive").call();
+        orderActions.findArriveAction().call();
 
         verify(mockArriveOrderCallback()).called(1);
       });
@@ -151,8 +154,7 @@ void main() {
       test("Then the order cannot be completed", () {
         expect(orderActions, isNotEmpty);
 
-        final completeOrderAction =
-            orderActions.firstWhere((action) => action.label == "Complete");
+        final completeOrderAction = orderActions.findCompleteAction();
 
         completeOrderAction.call();
 
@@ -188,3 +190,13 @@ abstract class _ActionCallback {
 }
 
 class _MockActionCallback extends Mock implements _ActionCallback {}
+
+bool Function(OrderAction) _actionLabelIs(String label) =>
+    (action) => action.label == label;
+
+extension _ActionFinder on Iterable<OrderAction> {
+  OrderAction findNewAction() => firstWhere(_actionLabelIs("New"));
+  OrderAction findStartAction() => firstWhere(_actionLabelIs("Start"));
+  OrderAction findArriveAction() => firstWhere(_actionLabelIs("Arrive"));
+  OrderAction findCompleteAction() => firstWhere(_actionLabelIs("Complete"));
+}
