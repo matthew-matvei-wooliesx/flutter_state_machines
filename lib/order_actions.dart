@@ -11,14 +11,14 @@ abstract class OrderActions {
     required OrderActionsCallbacks callbacks,
   }) {
     if (optionalOrder == null) {
-      return DefaultOrderActions._(
+      return _DefaultOrderActions._(
         optionalOrder: null,
         newOrder: callbacks._newOrder,
       )._actions;
     } else {
       switch (optionalOrder.status) {
         case "pending":
-          return NewOrderActions._(
+          return _NewOrderActions._(
             order: optionalOrder,
             newOrder: callbacks._newOrder,
             startOrder: callbacks._startOrder,
@@ -48,10 +48,10 @@ abstract class OrderActions {
   OrderAction get _completeOrderAction;
 }
 
-class DefaultOrderActions extends OrderActions {
+class _DefaultOrderActions extends OrderActions {
   final void Function() _newOrder;
 
-  const DefaultOrderActions._({
+  const _DefaultOrderActions._({
     required Order? optionalOrder,
     required void Function() newOrder,
   })  : _newOrder = newOrder,
@@ -82,10 +82,10 @@ class DefaultOrderActions extends OrderActions {
       );
 }
 
-class NewOrderActions extends DefaultOrderActions {
+class _NewOrderActions extends _DefaultOrderActions {
   final void Function() _startOrder;
 
-  const NewOrderActions._({
+  const _NewOrderActions._({
     required Order order,
     required Function() newOrder,
     required Function() startOrder,
