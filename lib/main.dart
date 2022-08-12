@@ -65,16 +65,6 @@ class _OrderAdminPageState extends State<_OrderAdminPage> {
                 completeOrder: () {},
               ),
             ).map(_actionToButton),
-            if (_order != null) ...[
-              ElevatedButton(
-                onPressed: _order!.status == "en route" ? null : _startOrder,
-                child: const Text("Start"),
-              ),
-              ElevatedButton(
-                  onPressed: _order!.status == "arrived" ? null : _arriveOrder,
-                  child: const Text("Arrive")),
-              ElevatedButton(onPressed: () {}, child: const Text("Complete"))
-            ]
           ],
         ),
       ],
