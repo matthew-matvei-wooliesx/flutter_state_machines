@@ -58,7 +58,7 @@ void main() {
         );
       });
 
-      test("Then an action can be invoked to create a new order", () {
+      test("Then a new order can still be created", () {
         expect(orderActions, isNotEmpty);
 
         orderActions.firstWhere((action) => action.label == "New").call();
