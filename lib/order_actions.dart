@@ -114,10 +114,8 @@ class _NewOrderActions extends _DefaultOrderActions {
         );
 
   @override
-  OrderAction get _startOrderAction => OrderAction._(
-        label: "Start",
-        callback: _startOrder,
-      );
+  OrderAction get _startOrderAction =>
+      super._startOrderAction._withCallback(_startOrder);
 }
 
 class _EnRouteOrderActions extends _DefaultOrderActions {
@@ -131,10 +129,8 @@ class _EnRouteOrderActions extends _DefaultOrderActions {
         super._(optionalOrder: order, newOrder: newOrder);
 
   @override
-  OrderAction get _arriveOrderAction => OrderAction._(
-        label: "Arrive",
-        callback: _arriveOrder,
-      );
+  OrderAction get _arriveOrderAction =>
+      super._arriveOrderAction._withCallback(_arriveOrder);
 }
 
 class _ArrivedOrderActions extends _DefaultOrderActions {
@@ -148,10 +144,8 @@ class _ArrivedOrderActions extends _DefaultOrderActions {
         super._(optionalOrder: order, newOrder: newOrder);
 
   @override
-  OrderAction get _completeOrderAction => OrderAction._(
-        label: "Complete",
-        callback: _completeOrder,
-      );
+  OrderAction get _completeOrderAction =>
+      super._completeOrderAction._withCallback(_completeOrder);
 }
 
 class _CompletedOrderActions extends _DefaultOrderActions {
@@ -192,4 +186,9 @@ class OrderAction {
       _callback!();
     }
   }
+
+  OrderAction _withCallback(void Function() callback) => OrderAction._(
+        label: label,
+        callback: callback,
+      );
 }
