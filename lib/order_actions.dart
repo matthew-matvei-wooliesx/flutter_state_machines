@@ -37,7 +37,7 @@ abstract class OrderActions {
           )._actions;
         default:
           throw ArgumentError.value(
-            optionalOrder,
+            optionalOrder.status,
             "optionalOrder",
             "Unrecognised order status",
           );
