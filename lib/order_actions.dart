@@ -29,6 +29,12 @@ abstract class OrderActions {
             newOrder: callbacks._newOrder,
             arriveOrder: callbacks._arriveOrder,
           )._actions;
+        case "arrived":
+          return _ArrivedOrderActions._(
+            order: optionalOrder,
+            newOrder: callbacks._newOrder,
+            completeOrder: callbacks._completeOrder,
+          )._actions;
         default:
           throw ArgumentError.value(
             optionalOrder,
@@ -125,10 +131,28 @@ class _EnRouteOrderActions extends _DefaultOrderActions {
       );
 }
 
+class _ArrivedOrderActions extends _DefaultOrderActions {
+  final void Function() _completeOrder;
+
+  const _ArrivedOrderActions._({
+    required Order order,
+    required void Function() newOrder,
+    required void Function() completeOrder,
+  })  : _completeOrder = completeOrder,
+        super._(optionalOrder: order, newOrder: newOrder);
+
+  @override
+  OrderAction get _completeOrderAction => OrderAction._(
+        label: "Complete",
+        callback: _completeOrder,
+      );
+}
+
 class OrderActionsCallbacks {
   final void Function() _newOrder;
   final void Function() _startOrder;
   final void Function() _arriveOrder;
+  final void Function() _completeOrder;
 
   const OrderActionsCallbacks({
     required void Function() newOrder,
@@ -137,7 +161,8 @@ class OrderActionsCallbacks {
     required void Function() completeOrder,
   })  : _newOrder = newOrder,
         _startOrder = startOrder,
-        _arriveOrder = arriveOrder;
+        _arriveOrder = arriveOrder,
+        _completeOrder = completeOrder;
 }
 
 class OrderAction {
