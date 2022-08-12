@@ -54,22 +54,20 @@ class _OrderAdminPageState extends State<_OrderAdminPage> {
             ],
           )
         ],
-        ButtonBar(
-          children: [
-            ...OrderActions.from(
-              _order,
-              callbacks: OrderActionsCallbacks(
-                newOrder: _createNewOrder,
-                startOrder: _startOrder,
-                arriveOrder: _arriveOrder,
-                completeOrder: () {},
-              ),
-            ).map(_actionToButton),
-          ],
-        ),
+        ButtonBar(children: _orderActions()),
       ],
     );
   }
+
+  List<Widget> _orderActions() => OrderActions.from(
+        _order,
+        callbacks: OrderActionsCallbacks(
+          newOrder: _createNewOrder,
+          startOrder: _startOrder,
+          arriveOrder: _arriveOrder,
+          completeOrder: () {},
+        ),
+      ).map(_actionToButton).toList();
 
   void _createNewOrder() {
     setState(() {
