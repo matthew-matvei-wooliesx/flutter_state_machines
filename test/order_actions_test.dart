@@ -5,18 +5,34 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
 void main() {
+  late _ActionCallback mockNewOrderCallback;
+  late _ActionCallback mockStartOrderCallback;
+  late _ActionCallback mockArriveOrderCallback;
+  late _ActionCallback mockCompleteOrderCallback;
+
+  setUp(() {
+    mockNewOrderCallback = _MockActionCallback();
+    mockStartOrderCallback = _MockActionCallback();
+    mockArriveOrderCallback = _MockActionCallback();
+    mockCompleteOrderCallback = _MockActionCallback();
+  });
+
   group("Given no order", () {
     const Order? order = null;
 
     group("When getting Order Actions", () {
-      late _ActionCallback mockNewOrderCallback;
       late Iterable<OrderAction> orderActions;
 
       setUp(() {
         mockNewOrderCallback = _MockActionCallback();
         orderActions = OrderActions.from(
           order,
-          callbacks: _orderActionsCallbacks(newOrder: mockNewOrderCallback),
+          callbacks: OrderActionsCallbacks(
+            newOrder: mockNewOrderCallback,
+            startOrder: mockStartOrderCallback,
+            arriveOrder: mockArriveOrderCallback,
+            completeOrder: mockCompleteOrderCallback,
+          ),
         );
       });
 
@@ -46,7 +62,12 @@ void main() {
         mockNewOrderCallback = _MockActionCallback();
         orderActions = OrderActions.from(
           order,
-          callbacks: _orderActionsCallbacks(newOrder: mockNewOrderCallback),
+          callbacks: OrderActionsCallbacks(
+            newOrder: mockNewOrderCallback,
+            startOrder: mockStartOrderCallback,
+            arriveOrder: mockArriveOrderCallback,
+            completeOrder: mockCompleteOrderCallback,
+          ),
         );
       });
 
@@ -65,6 +86,18 @@ void main() {
 
         verify(mockNewOrderCallback()).called(1);
       });
+
+      test("Then the order can be started", () {
+        throw UnimplementedError();
+      });
+
+      test("Then the order cannot arrive", () {
+        throw UnimplementedError();
+      });
+
+      test("Then the order cannot be completed", () {
+        throw UnimplementedError();
+      });
     });
   });
 
@@ -73,20 +106,12 @@ void main() {
     order.start();
 
     group("When getting Order Actions", () {
-      late _ActionCallback mockNewOrderCallback;
-      late _ActionCallback mockStartOrderCallback;
-      late _ActionCallback mockArriveOrderCallback;
-      late _ActionCallback mockCompleteOrderCallback;
       late Iterable<OrderAction> orderActions;
 
       setUp(() {
-        mockNewOrderCallback = _MockActionCallback();
-        mockStartOrderCallback = _MockActionCallback();
-        mockArriveOrderCallback = _MockActionCallback();
-        mockCompleteOrderCallback = _MockActionCallback();
         orderActions = OrderActions.from(
           order,
-          callbacks: _orderActionsCallbacks(
+          callbacks: OrderActionsCallbacks(
             newOrder: mockNewOrderCallback,
             startOrder: mockStartOrderCallback,
             arriveOrder: mockArriveOrderCallback,
@@ -163,16 +188,3 @@ abstract class _ActionCallback {
 }
 
 class _MockActionCallback extends Mock implements _ActionCallback {}
-
-OrderActionsCallbacks _orderActionsCallbacks({
-  required _ActionCallback newOrder,
-  _ActionCallback? startOrder,
-  _ActionCallback? arriveOrder,
-  _ActionCallback? completeOrder,
-}) =>
-    OrderActionsCallbacks(
-      newOrder: newOrder,
-      startOrder: startOrder ?? _MockActionCallback(),
-      arriveOrder: arriveOrder ?? _MockActionCallback(),
-      completeOrder: completeOrder ?? _MockActionCallback(),
-    );
