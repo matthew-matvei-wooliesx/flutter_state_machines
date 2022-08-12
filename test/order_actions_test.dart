@@ -96,11 +96,23 @@ void main() {
       });
 
       test("Then the order cannot arrive", () {
-        throw UnimplementedError();
+        expect(orderActions, isNotEmpty);
+
+        final arriveAction = orderActions.findArriveAction();
+        arriveAction.call();
+
+        expect(arriveAction.callable, isFalse);
+        verifyNever(mockArriveOrderCallback());
       });
 
       test("Then the order cannot be completed", () {
-        throw UnimplementedError();
+        expect(orderActions, isNotEmpty);
+
+        final completeAction = orderActions.findCompleteAction();
+        completeAction.call();
+
+        expect(completeAction.callable, isFalse);
+        verifyNever(mockCompleteOrderCallback());
       });
     });
   });

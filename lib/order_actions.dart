@@ -35,11 +35,17 @@ abstract class OrderActions {
 
   Iterable<OrderAction> get _actions => [
         _newOrderAction,
-        if (_optionalOrder != null) ...[_startOrderAction]
+        if (_optionalOrder != null) ...[
+          _startOrderAction,
+          _arriveOrderAction,
+          _completeOrderAction,
+        ]
       ];
 
   OrderAction get _newOrderAction;
   OrderAction get _startOrderAction;
+  OrderAction get _arriveOrderAction;
+  OrderAction get _completeOrderAction;
 }
 
 class DefaultOrderActions extends OrderActions {
@@ -60,6 +66,18 @@ class DefaultOrderActions extends OrderActions {
   @override
   OrderAction get _startOrderAction => const OrderAction._(
         label: "Start",
+        callback: null,
+      );
+
+  @override
+  OrderAction get _arriveOrderAction => const OrderAction._(
+        label: "Arrive",
+        callback: null,
+      );
+
+  @override
+  OrderAction get _completeOrderAction => const OrderAction._(
+        label: "Complete",
         callback: null,
       );
 }
