@@ -78,12 +78,14 @@ void main() {
 
     testWidgets("Then the order's ETA can be updated", (tester) async {
       withClock(Clock.fixed(testTimeSnapshot), () async {
-        final twoHoursFromNow = clock.fromNow(hours: 2);
+        const expectedOrderEta = Duration(hours: 6);
+        final twoHourDelay = clock.fromNowBy(expectedOrderEta).add(
+              const Duration(hours: 2),
+            );
         await tester.pumpWidget(
           _orderAdminPage(
             overrides: [
-              dateTimePickerProvider
-                  .overrideWithValue(() async => twoHoursFromNow)
+              dateTimePickerProvider.overrideWithValue(() async => twoHourDelay)
             ],
           ),
         );
@@ -97,6 +99,7 @@ void main() {
         expect(_findingUpdateEta(), findsOneWidget);
 
         await tester.tap(_findingUpdateEta());
+        await tester.pumpAndSettle();
 
         expect(
           tester.firstWidget<Text>(_findingEtaDisplay()).data,
