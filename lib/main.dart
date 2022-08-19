@@ -84,41 +84,14 @@ class _OrderAdminPageState extends State<_OrderAdminPage> {
     final eta = OrderEta.from(_order);
 
     if (eta.current != null) {
-      yield Row(
-        children: [
-          const Expanded(child: Text("Current ETA")),
-          Expanded(
-              child: Text(
-            eta.current.toString(),
-            key: const Key("EtaDisplay"),
-          )),
-        ],
-      );
+      yield eta._renderDisplay();
 
       if (eta.canBeUpdated) {
-        yield Row(
-          children: [
-            Expanded(
-              child: Consumer(
-                builder: (_, ref, __) => ElevatedButton(
-                  child: const Text("Update ETA"),
-                  onPressed: () async {
-                    final newEta =
-                        await ref.read(dateTimePickerProvider).call();
-
-                    final etaDifference = newEta?.difference(eta.current!);
-
-                    if (etaDifference != null) {
-                      setState(() {
-                        _order!.updateEtaBy(etaDifference);
-                      });
-                    }
-                  },
-                ),
-              ),
-            ),
-          ],
-        );
+        yield eta._renderUpdateButton(updateOrderEta: (etaDifference) {
+          setState(() {
+            _order!.updateEtaBy(etaDifference);
+          });
+        });
       }
     }
   }
@@ -128,3 +101,40 @@ Widget _actionToButton(OrderAction action) => ElevatedButton(
       onPressed: action.callable ? () => action() : null,
       child: Text(action.label),
     );
+
+extension _EtaRendering on OrderEta {
+  Widget _renderDisplay() => Row(
+        children: [
+          const Expanded(child: Text("Current ETA")),
+          Expanded(
+              child: Text(
+            current.toString(),
+            key: const Key("EtaDisplay"),
+          )),
+        ],
+      );
+
+  Widget _renderUpdateButton({
+    required void Function(Duration etaUpdate) updateOrderEta,
+  }) =>
+      Row(
+        children: [
+          Expanded(
+            child: Consumer(
+              builder: (_, ref, __) => ElevatedButton(
+                child: const Text("Update ETA"),
+                onPressed: () async {
+                  final newEta = await ref.read(dateTimePickerProvider).call();
+
+                  final etaDifference = newEta?.difference(current!);
+
+                  if (etaDifference != null) {
+                    updateOrderEta(etaDifference);
+                  }
+                },
+              ),
+            ),
+          ),
+        ],
+      );
+}
