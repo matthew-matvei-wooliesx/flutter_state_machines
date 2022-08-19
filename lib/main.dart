@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_state_machines/date_time_picker.dart';
 import 'package:flutter_state_machines/order.dart';
 import 'package:flutter_state_machines/order_actions.dart';
+import 'package:flutter_state_machines/order_eta.dart';
 
 void main() {
   runApp(const OrderAdmin());
@@ -36,7 +37,7 @@ class _OrderAdminPageState extends State<_OrderAdminPage> {
   Widget build(BuildContext context) {
     return ListView(
       children: [
-        if (_order != null) ...[
+        if (_order != null)
           Row(
             children: [
               const Expanded(child: Text("Order")),
@@ -45,41 +46,7 @@ class _OrderAdminPageState extends State<_OrderAdminPage> {
               )
             ],
           ),
-          Row(
-            children: [
-              const Expanded(child: Text("Current ETA")),
-              Expanded(
-                  child: Text(
-                _order!.eta.toString(),
-                key: const Key("EtaDisplay"),
-              )),
-            ],
-          ),
-          if (_order!.status != "arrived")
-            Row(
-              children: [
-                Expanded(
-                  child: Consumer(
-                    builder: (_, ref, __) => ElevatedButton(
-                      child: const Text("Update ETA"),
-                      onPressed: () async {
-                        final newEta =
-                            await ref.read(dateTimePickerProvider).call();
-
-                        final etaDifference = newEta?.difference(_order!.eta);
-
-                        if (etaDifference != null) {
-                          setState(() {
-                            _order!.updateEtaBy(etaDifference);
-                          });
-                        }
-                      },
-                    ),
-                  ),
-                ),
-              ],
-            )
-        ],
+        ..._etaSection(),
         ButtonBar(children: _orderActions()),
       ],
     );
@@ -111,6 +78,49 @@ class _OrderAdminPageState extends State<_OrderAdminPage> {
     setState(() {
       _order!.arrive();
     });
+  }
+
+  Iterable<Widget> _etaSection() sync* {
+    final eta = OrderEta.from(_order);
+
+    if (eta.current != null) {
+      yield Row(
+        children: [
+          const Expanded(child: Text("Current ETA")),
+          Expanded(
+              child: Text(
+            eta.current.toString(),
+            key: const Key("EtaDisplay"),
+          )),
+        ],
+      );
+
+      if (eta.canBeUpdated) {
+        yield Row(
+          children: [
+            Expanded(
+              child: Consumer(
+                builder: (_, ref, __) => ElevatedButton(
+                  child: const Text("Update ETA"),
+                  onPressed: () async {
+                    final newEta =
+                        await ref.read(dateTimePickerProvider).call();
+
+                    final etaDifference = newEta?.difference(eta.current!);
+
+                    if (etaDifference != null) {
+                      setState(() {
+                        _order!.updateEtaBy(etaDifference);
+                      });
+                    }
+                  },
+                ),
+              ),
+            ),
+          ],
+        );
+      }
+    }
   }
 }
 
