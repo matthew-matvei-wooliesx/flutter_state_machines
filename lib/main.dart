@@ -121,10 +121,11 @@ extension _EtaRendering on OrderEta {
         children: [
           Expanded(
             child: Consumer(
-              builder: (_, ref, __) => ElevatedButton(
+              builder: (context, ref, __) => ElevatedButton(
                 child: const Text("Update ETA"),
                 onPressed: () async {
-                  final newEta = await ref.read(dateTimePickerProvider).call();
+                  final newEta =
+                      await ref.read(dateTimePickerProvider).pick(context);
 
                   final etaDifference = newEta?.difference(current!);
 

@@ -84,7 +84,9 @@ void main() {
             );
         await tester.runApp(
           withOverrides: [
-            dateTimePickerProvider.overrideWithValue(() async => twoHourDelay),
+            dateTimePickerProvider.overrideWithValue(
+              _FakeDateTimePicker(alwaysReturn: twoHourDelay),
+            ),
           ],
         );
         await tester.startNewOrder();
@@ -127,7 +129,9 @@ void main() {
             );
         await tester.runApp(
           withOverrides: [
-            dateTimePickerProvider.overrideWithValue(() async => twoHourDelay),
+            dateTimePickerProvider.overrideWithValue(
+              _FakeDateTimePicker(alwaysReturn: twoHourDelay),
+            ),
           ],
         );
         await tester.arriveNewOrder();
@@ -196,3 +200,13 @@ Finder _findingUpdateEta() => find.widgetWithText(
       "Update ETA",
       skipOffstage: false,
     );
+
+class _FakeDateTimePicker implements DateTimePicker {
+  final DateTime? _staticDateTime;
+
+  const _FakeDateTimePicker({required DateTime? alwaysReturn})
+      : _staticDateTime = alwaysReturn;
+
+  @override
+  Future<DateTime?> pick(BuildContext _) async => _staticDateTime;
+}
