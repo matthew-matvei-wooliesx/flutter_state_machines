@@ -9,11 +9,11 @@ void main() {
     final orderEta = OrderEta.from(order);
 
     test("Then there's no current ETA to show", () {
-      expect(orderEta.currentEta, isNull);
+      expect(orderEta.current, isNull);
     });
 
     test("Then updating the ETA is not allowed", () {
-      expect(orderEta.canUpdateEta, isFalse);
+      expect(orderEta.canBeUpdated, isFalse);
     });
   });
 
@@ -23,11 +23,11 @@ void main() {
     final orderEta = OrderEta.from(order);
 
     test("Then a current ETA is shown", () {
-      expect(orderEta.currentEta, order.eta);
+      expect(orderEta.current, order.eta);
     });
 
     test("Then the ETA can be updated", () {
-      expect(orderEta.canUpdateEta, isTrue);
+      expect(orderEta.canBeUpdated, isTrue);
     });
   });
 
@@ -38,11 +38,11 @@ void main() {
     final orderEta = OrderEta.from(order);
 
     test("Then a current ETA is shown", () {
-      expect(orderEta.currentEta, order.eta);
+      expect(orderEta.current, order.eta);
     });
 
     test("Then updating the ETA is not allowed", () {
-      expect(orderEta.canUpdateEta, isFalse);
+      expect(orderEta.canBeUpdated, isFalse);
     });
   });
 }

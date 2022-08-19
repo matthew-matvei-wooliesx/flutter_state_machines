@@ -17,18 +17,18 @@ abstract class OrderEta {
     }
   }
 
-  DateTime? get currentEta;
-  bool get canUpdateEta;
+  DateTime? get current;
+  bool get canBeUpdated;
 }
 
 class _NoOrderEta extends OrderEta {
   const _NoOrderEta() : super._();
 
   @override
-  DateTime? get currentEta => null;
+  DateTime? get current => null;
 
   @override
-  bool get canUpdateEta => false;
+  bool get canBeUpdated => false;
 }
 
 class _DefaultOrderEta extends OrderEta {
@@ -37,15 +37,15 @@ class _DefaultOrderEta extends OrderEta {
   const _DefaultOrderEta(this._order) : super._();
 
   @override
-  DateTime? get currentEta => _order.eta;
+  DateTime? get current => _order.eta;
 
   @override
-  bool get canUpdateEta => false;
+  bool get canBeUpdated => false;
 }
 
 class _EnRouteOrderEta extends _DefaultOrderEta {
   const _EnRouteOrderEta(Order order) : super(order);
 
   @override
-  bool get canUpdateEta => true;
+  bool get canBeUpdated => true;
 }
