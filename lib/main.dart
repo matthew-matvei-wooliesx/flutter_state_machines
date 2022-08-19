@@ -32,7 +32,7 @@ class _OrderAdminPageState extends State<_OrderAdminPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return ListView(
       children: [
         if (_order != null) ...[
           Row(
