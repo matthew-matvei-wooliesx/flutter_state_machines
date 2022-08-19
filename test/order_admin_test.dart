@@ -10,14 +10,14 @@ void main() {
 
   group("Given an order has not yet been created", () {
     testWidgets("Then a button to create a new order is shown", (tester) async {
-      await tester.pumpWidget(_orderAdminPage());
+      await tester.runApp();
       expect(_findingNewButton(), findsOneWidget);
     });
 
     testWidgets(
       "Then buttons to modify the order do not exist",
       (tester) async {
-        await tester.pumpWidget(_orderAdminPage());
+        await tester.runApp();
         expect(_findingStartButton(), findsNothing);
         expect(_findingArriveButton(), findsNothing);
         expect(_findingCompleteButton(), findsNothing);
@@ -25,14 +25,14 @@ void main() {
     );
 
     testWidgets("Then a current ETA is not shown", (tester) async {
-      await tester.pumpWidget(_orderAdminPage());
+      await tester.runApp();
       expect(_findingEtaDisplay(), findsNothing);
     });
   });
 
   group("Given an order exists", () {
     testWidgets("Then the order's ID is shown", (tester) async {
-      await tester.pumpWidget(_orderAdminPage());
+      await tester.runApp();
       await tester.createNewOrder();
 
       final orderIdText = find.byKey(const Key("OrderId"));
@@ -42,13 +42,13 @@ void main() {
     });
 
     testWidgets("Then a button to create a new order is shown", (tester) async {
-      await tester.pumpWidget(_orderAdminPage());
+      await tester.runApp();
       await tester.createNewOrder();
       expect(_findingNewButton(), findsOneWidget);
     });
 
     testWidgets("Then buttons to modify the order exist", (tester) async {
-      await tester.pumpWidget(_orderAdminPage());
+      await tester.runApp();
       await tester.createNewOrder();
       expect(_findingStartButton(), findsOneWidget);
       expect(_findingArriveButton(), findsOneWidget);
@@ -56,7 +56,7 @@ void main() {
     });
 
     testWidgets("Then the order's current ETA is shown", (tester) async {
-      await tester.pumpWidget(_orderAdminPage());
+      await tester.runApp();
       await tester.createNewOrder();
 
       expect(_findingEtaDisplay(), findsOneWidget);
@@ -66,7 +66,7 @@ void main() {
 
   group("Given an order has been started", () {
     testWidgets("Then the order cannot be started again", (tester) async {
-      await tester.pumpWidget(_orderAdminPage());
+      await tester.runApp();
       await tester.startNewOrder();
 
       expect(_findingStartButton(), findsOneWidget);
@@ -82,12 +82,10 @@ void main() {
         final twoHourDelay = clock.fromNowBy(expectedOrderEta).add(
               const Duration(hours: 2),
             );
-        await tester.pumpWidget(
-          _orderAdminPage(
-            overrides: [
-              dateTimePickerProvider.overrideWithValue(() async => twoHourDelay)
-            ],
-          ),
+        await tester.runApp(
+          withOverrides: [
+            dateTimePickerProvider.overrideWithValue(() async => twoHourDelay),
+          ],
         );
         await tester.startNewOrder();
 
@@ -111,7 +109,7 @@ void main() {
 
   group("Given an order has arrived", () {
     testWidgets("Then the order cannot arrive again", (tester) async {
-      await tester.pumpWidget(_orderAdminPage());
+      await tester.runApp();
       await tester.arriveNewOrder();
 
       expect(_findingArriveButton(), findsOneWidget);
@@ -142,6 +140,16 @@ extension _OrderInteractions on WidgetTester {
   }
 }
 
+extension _TestApp on WidgetTester {
+  Future<void> runApp({List<Override>? withOverrides}) async =>
+      await pumpWidget(
+        ProviderScope(
+          child: const OrderAdmin(),
+          overrides: withOverrides ?? [],
+        ),
+      );
+}
+
 Finder _findingNewButton() => find.widgetWithText(
       ElevatedButton,
       "New",
@@ -170,12 +178,4 @@ Finder _findingUpdateEta() => find.widgetWithText(
       ElevatedButton,
       "Update ETA",
       skipOffstage: false,
-    );
-
-Widget _orderAdminPage({
-  List<Override>? overrides,
-}) =>
-    ProviderScope(
-      child: const OrderAdmin(),
-      overrides: overrides ?? [],
     );
