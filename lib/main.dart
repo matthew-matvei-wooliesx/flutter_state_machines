@@ -50,7 +50,17 @@ class _OrderAdminPageState extends State<_OrderAdminPage> {
                   child: Text(
                 _order!.eta.toString(),
                 key: const Key("EtaDisplay"),
-              ))
+              )),
+            ],
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: ElevatedButton(
+                  onPressed: () {},
+                  child: const Text("Update ETA"),
+                ),
+              )
             ],
           )
         ],
