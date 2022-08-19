@@ -118,6 +118,23 @@ void main() {
         isFalse,
       );
     });
+
+    testWidgets("Then the order's ETA cannot be updated", (tester) async {
+      withClock(Clock.fixed(testTimeSnapshot), () async {
+        const expectedOrderEta = Duration(hours: 6);
+        final twoHourDelay = clock.fromNowBy(expectedOrderEta).add(
+              const Duration(hours: 2),
+            );
+        await tester.runApp(
+          withOverrides: [
+            dateTimePickerProvider.overrideWithValue(() async => twoHourDelay),
+          ],
+        );
+        await tester.arriveNewOrder();
+
+        expect(_findingUpdateEta(), findsNothing);
+      });
+    });
   });
 }
 

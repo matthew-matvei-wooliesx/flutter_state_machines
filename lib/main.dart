@@ -55,29 +55,30 @@ class _OrderAdminPageState extends State<_OrderAdminPage> {
               )),
             ],
           ),
-          Row(
-            children: [
-              Expanded(
-                child: Consumer(
-                  builder: (_, ref, __) => ElevatedButton(
-                    child: const Text("Update ETA"),
-                    onPressed: () async {
-                      final newEta =
-                          await ref.read(dateTimePickerProvider).call();
+          if (_order!.status != "arrived")
+            Row(
+              children: [
+                Expanded(
+                  child: Consumer(
+                    builder: (_, ref, __) => ElevatedButton(
+                      child: const Text("Update ETA"),
+                      onPressed: () async {
+                        final newEta =
+                            await ref.read(dateTimePickerProvider).call();
 
-                      final etaDifference = newEta?.difference(_order!.eta);
+                        final etaDifference = newEta?.difference(_order!.eta);
 
-                      if (etaDifference != null) {
-                        setState(() {
-                          _order!.updateEtaBy(etaDifference);
-                        });
-                      }
-                    },
+                        if (etaDifference != null) {
+                          setState(() {
+                            _order!.updateEtaBy(etaDifference);
+                          });
+                        }
+                      },
+                    ),
                   ),
                 ),
-              ),
-            ],
-          )
+              ],
+            )
         ],
         ButtonBar(children: _orderActions()),
       ],
