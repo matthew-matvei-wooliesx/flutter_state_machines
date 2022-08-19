@@ -1,5 +1,7 @@
 import 'package:clock/clock.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_state_machines/date_time_picker.dart';
 import 'package:flutter_state_machines/order.dart';
 import 'package:flutter_state_machines/order_actions.dart';
 
@@ -56,11 +58,24 @@ class _OrderAdminPageState extends State<_OrderAdminPage> {
           Row(
             children: [
               Expanded(
-                child: ElevatedButton(
-                  onPressed: () {},
-                  child: const Text("Update ETA"),
+                child: Consumer(
+                  builder: (_, ref, __) => ElevatedButton(
+                    child: const Text("Update ETA"),
+                    onPressed: () async {
+                      final newEta =
+                          await ref.read(dateTimePickerProvider).call();
+
+                      final etaDifference = newEta?.difference(_order!.eta);
+
+                      if (etaDifference != null) {
+                        setState(() {
+                          _order!.updateEtaBy(etaDifference);
+                        });
+                      }
+                    },
+                  ),
                 ),
-              )
+              ),
             ],
           )
         ],
