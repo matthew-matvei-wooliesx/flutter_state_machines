@@ -1,3 +1,4 @@
+import 'package:clock/clock.dart';
 import 'package:flutter_state_machines/order.dart';
 import 'package:flutter_state_machines/order_eta.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -12,27 +13,36 @@ void main() {
     });
 
     test("Then updating the ETA is not allowed", () {
-      expect(orderEta.etaUpdater, isNull);
+      expect(orderEta.canUpdateEta, isFalse);
     });
   });
 
   group("Given an 'en route' order", () {
+    final order = Order(eta: clock.fromNow(hours: 6));
+    order.start();
+    final orderEta = OrderEta.from(order);
+
     test("Then a current ETA is shown", () {
-      throw UnimplementedError();
+      expect(orderEta.currentEta, order.eta);
     });
 
     test("Then the ETA can be updated", () {
-      throw UnimplementedError();
+      expect(orderEta.canUpdateEta, isTrue);
     });
   });
 
   group("Given an arrived order", () {
+    final order = Order(eta: clock.fromNow(hours: 6))
+      ..start()
+      ..arrive();
+    final orderEta = OrderEta.from(order);
+
     test("Then a current ETA is shown", () {
-      throw UnimplementedError();
+      expect(orderEta.currentEta, order.eta);
     });
 
     test("Then updating the ETA is not allowed", () {
-      throw UnimplementedError();
+      expect(orderEta.canUpdateEta, isFalse);
     });
   });
 }
