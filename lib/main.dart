@@ -52,32 +52,39 @@ class _OrderAdminPageState extends State<_OrderAdminPage> {
     );
   }
 
-  List<Widget> _orderActions() => OrderActions.from(
-        _order,
-        callbacks: OrderActionsCallbacks(
-          newOrder: _createNewOrder,
-          startOrder: _startOrder,
-          arriveOrder: _arriveOrder,
-          completeOrder: () {},
-        ),
-      ).map(_actionToButton).toList();
+  List<Widget> _orderActions() {
+    void createNewOrder() {
+      setState(() {
+        _order = Order(eta: clock.hoursFromNow(6));
+      });
+    }
 
-  void _createNewOrder() {
-    setState(() {
-      _order = Order(eta: clock.hoursFromNow(6));
-    });
-  }
+    void startOrder() {
+      setState(() {
+        _order!.start();
+      });
+    }
 
-  void _startOrder() {
-    setState(() {
-      _order!.start();
-    });
-  }
+    void arriveOrder() {
+      setState(() {
+        _order!.arrive();
+      });
+    }
 
-  void _arriveOrder() {
-    setState(() {
-      _order!.arrive();
-    });
+    Widget actionToButton(OrderAction action) => ElevatedButton(
+          onPressed: action.callable ? () => action() : null,
+          child: Text(action.label),
+        );
+
+    return OrderActions.from(
+      _order,
+      callbacks: OrderActionsCallbacks(
+        newOrder: createNewOrder,
+        startOrder: startOrder,
+        arriveOrder: arriveOrder,
+        completeOrder: () {},
+      ),
+    ).map(actionToButton).toList();
   }
 
   Iterable<Widget> _etaSection() sync* {
@@ -96,11 +103,6 @@ class _OrderAdminPageState extends State<_OrderAdminPage> {
     }
   }
 }
-
-Widget _actionToButton(OrderAction action) => ElevatedButton(
-      onPressed: action.callable ? () => action() : null,
-      child: Text(action.label),
-    );
 
 extension _EtaRendering on OrderEta {
   Widget _renderDisplay() => Row(
