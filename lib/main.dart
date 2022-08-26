@@ -7,7 +7,7 @@ import 'package:flutter_state_machines/order_actions.dart';
 import 'package:flutter_state_machines/order_eta.dart';
 
 void main() {
-  runApp(const OrderAdmin());
+  runApp(const ProviderScope(child: OrderAdmin()));
 }
 
 class OrderAdmin extends StatelessWidget {
