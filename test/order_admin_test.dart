@@ -28,6 +28,11 @@ void main() {
       await tester.runApp();
       expect(_findingEtaDisplay(), findsNothing);
     });
+
+    testWidgets("Then no customer signature is displayed", (tester) async {
+      await tester.runApp();
+      expect(_findingCustomerSignature(), findsNothing);
+    });
   });
 
   group("Given an order exists", () {
@@ -138,6 +143,20 @@ void main() {
 
         expect(_findingUpdateEta(), findsNothing);
       });
+    });
+
+    testWidgets("Then no customer signature is displayed", (tester) async {
+      await tester.runApp();
+      await tester.arriveNewOrder();
+      expect(_findingCustomerSignature(), findsNothing);
+    });
+  });
+
+  group("Given an order has been completed", () {
+    testWidgets("Then customer signature is displayed", (tester) async {
+      await tester.runApp();
+      await tester.completeNewOrder();
+      expect(_findingCustomerSignature(), findsOneWidget);
     });
   });
 }

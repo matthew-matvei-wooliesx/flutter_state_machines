@@ -48,7 +48,17 @@ class _OrderAdminPageState extends State<_OrderAdminPage> {
               ],
             ),
           ..._etaSection(),
-          ButtonBar(children: _orderActions()),
+          if (_order?.customerSignature != null)
+            Row(
+              children: const [
+                Expanded(child: Text("Customer Signature Received")),
+                Expanded(child: Icon(Icons.check))
+              ],
+            ),
+          ButtonBar(
+            overflowDirection: VerticalDirection.down,
+            children: _orderActions(),
+          ),
         ],
       ),
     );
@@ -73,6 +83,12 @@ class _OrderAdminPageState extends State<_OrderAdminPage> {
       });
     }
 
+    void completeOrder() {
+      setState(() {
+        _order!.complete(customerSignature: CustomerSignature());
+      });
+    }
+
     Widget actionToButton(OrderAction action) => ElevatedButton(
           onPressed: action.callable ? () => action() : null,
           child: Text(action.label),
@@ -84,7 +100,7 @@ class _OrderAdminPageState extends State<_OrderAdminPage> {
         newOrder: createNewOrder,
         startOrder: startOrder,
         arriveOrder: arriveOrder,
-        completeOrder: () {},
+        completeOrder: completeOrder,
       ),
     ).map(actionToButton).toList();
   }
