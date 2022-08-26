@@ -103,7 +103,7 @@ void main() {
 
         expect(_findingUpdateEta(), findsOneWidget);
 
-        await tester.tap(_findingUpdateEta());
+        await tester.tapWhenReady(_findingUpdateEta());
         await tester.pumpAndSettle();
 
         expect(
@@ -163,19 +163,25 @@ void main() {
 
 extension _OrderInteractions on WidgetTester {
   Future<void> createNewOrder() async {
-    await tap(_findingNewButton());
+    await tapWhenReady(_findingNewButton());
     await pump();
   }
 
   Future<void> startNewOrder() async {
     await createNewOrder();
-    await tap(_findingStartButton());
+    await tapWhenReady(_findingStartButton());
     await pump();
   }
 
   Future<void> arriveNewOrder() async {
     await startNewOrder();
-    await tap(_findingArriveButton());
+    await tapWhenReady(_findingArriveButton());
+    await pump();
+  }
+
+  Future<void> completeNewOrder() async {
+    await arriveNewOrder();
+    await tapWhenReady(_findingCompleteButton());
     await pump();
   }
 }
@@ -188,6 +194,12 @@ extension _TestApp on WidgetTester {
           overrides: withOverrides ?? [],
         ),
       );
+
+  Future<void> tapWhenReady(Finder finder) async {
+    await ensureVisible(finder);
+    await pumpAndSettle();
+    await tap(finder);
+  }
 }
 
 Finder _findingNewButton() => find.widgetWithText(
@@ -217,6 +229,10 @@ Finder _findingEtaDisplay() => find.byKey(
 Finder _findingUpdateEta() => find.widgetWithText(
       ElevatedButton,
       "Update ETA",
+      skipOffstage: false,
+    );
+Finder _findingCustomerSignature() => find.text(
+      "Customer Signature Received",
       skipOffstage: false,
     );
 
