@@ -35,20 +35,22 @@ class _OrderAdminPageState extends State<_OrderAdminPage> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        if (_order != null)
-          Row(
-            children: [
-              const Expanded(child: Text("Order")),
-              Expanded(
-                child: Text(_order!.id, key: const Key("OrderId")),
-              )
-            ],
-          ),
-        ..._etaSection(),
-        ButtonBar(children: _orderActions()),
-      ],
+    return Center(
+      child: ListView(
+        children: [
+          if (_order != null)
+            Row(
+              children: [
+                const Expanded(child: Text("Order")),
+                Expanded(
+                  child: Text(_order!.id, key: const Key("OrderId")),
+                )
+              ],
+            ),
+          ..._etaSection(),
+          ButtonBar(children: _orderActions()),
+        ],
+      ),
     );
   }
 
