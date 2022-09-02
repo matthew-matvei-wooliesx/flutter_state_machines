@@ -1,16 +1,34 @@
 # flutter_state_machines
 
-A new Flutter project.
+This project explores ways to simplify state-based business and view logic.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+1. Install Flutter. Either:
+    * the [Flutter SDK itself](https://docs.flutter.dev/get-started/install) if this experience with Flutter will be a
+        one off, or
+    * [Flutter Version Manager](https://fvm.app/docs/getting_started/installation/) if you'll ever use Flutter in
+        multiple projects
+1. From the root directory, run:
 
-A few resources to get you started if this is your first Flutter project:
+    ```sh
+    # If you installed the Flutter SDK itself
+    flutter test
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+    # Or if you want to use FVM to manage the Flutter SDK
+    fvm flutter test
+    ```
+1. Provided the tests all pass, feel free to run this locally by doing:
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+    ```sh
+    # As above
+    flutter run -d chrome --web-renderer html
+
+    # Or if using FVM as above
+    fvm flutter run -d chrome --web-renderer html
+    ```
+
+    Of course you can run this app with a different target device by changing the `-d` argument. See
+    `flutter run --help` for more help.
+
+If anything from the above doesn't work for you, please reach out.
